@@ -1,0 +1,86 @@
+@keyframes ring {
+	0% {
+		transform: rotateZ(-20deg);
+    }
+    50% {
+        transform: rotateZ(20deg);
+    }
+	100% {
+		transform: rotateZ(-20deg);
+	}
+}
+
+.spin-logo {
+    animation: ring 1s linear infinite;
+}
+
+:root {
+    --forest-green: ForestGreen;
+    --forest-green-lighter: #98e698;
+}
+
+.bg-fg {
+    background: var(--forest-green);
+}
+
+.button-big-circle-centered{
+    position: relative;
+    top: 35%;
+    left: 45%;
+    width: 70px; 
+    height: 70px; 
+    padding: 10px 16px; 
+    border-radius: 35px; 
+    font-size: 12px; 
+    text-align: center; 
+}
+#button-fg{
+    color: white;
+    background-color: var(--forest-green);
+    border-color: var(--forest-green-lighter);
+}
+#button-fg:active:enabled{
+    border-color: var(--forest-green);
+    box-shadow: 0 0 0 .2rem var(--forest-green-lighter);
+}
+#button-fg:hover:enabled{
+    opacity: 0.8;
+}
+#button-fg:focus {
+    box-shadow: none;
+}
+.btn-secondary:hover:enabled{
+    opacity: 0.8;
+}
+
+.form-fg{
+    color: var(--forest-green);
+}
+.form-fg:focus{
+    color: var(--forest-green);
+    border-color: var(--forest-green-lighter);
+    box-shadow: 0 0 0 .1rem var(--forest-green-lighter);
+}
+
+.form-fg-dark:focus{
+    color: var(--forest-green);
+    border-color: var(--forest-green);
+    box-shadow: 0 0 0 .1rem var(--forest-green);
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--forest-green-lighter);
+    opacity: 1; /* Firefox */
+}
+
+.modal-head-fg {
+    background-color: var(--forest-green);
+    color: white;
+    border-color: var(--forest-green);
+}
+
+.modal-rest-fg {
+    color: var(--forest-green);
+    background-color: var(--forest-green-lighter);
+    border: none
+}
