@@ -1,116 +1,90 @@
 import React, { useContext, useState } from "react";
-import { Container, InputGroup, Form, Button, Modal } from "react-bootstrap";
+import { Container, InputGroup, Form, Button } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 import { useHistory } from "react-router-dom";
+import NumberAreaModal from "../reaction_type/ReactionTypeNumberAreaDisplay";
+import { ReactionType } from "../reaction_type/ReactionTypeEnum";
+import ColorAreaModal from "../reaction_type/ReactionTypeNumberColorDisplay";
+import NameAreaModal from "../reaction_type/ReactionTypeNumberNameDisplay";
+import DirectionAreaModal from "../reaction_type/ReactionTypeNumberDirectionDisplay";
 
 const SettingsPage: React.FC = () => {
   const {
-    mode,
+    type,
     area,
-    reaction,
+    kind,
     time,
     repeat,
-    setMode,
-    setArea,
-    setReaction,
+    setType,
+    setKind,
     setTime,
     setRepeat,
   } = useContext(ReactionWorkoutContext);
 
   const history = useHistory();
 
-  const [showAreaModal, setShowAreaModal] = useState(false);
-  const NumberAreaModal: React.FC = () => {
-    const [areaValues, setAreaValues] = useState([...area]);
-    // TODO: verify that min < max; handle letters!; negative values??
-    return (
-      <Modal
-        show={showAreaModal}
-        size="sm"
-        centered
-        onHide={() => setShowAreaModal(false)}
-      >
-        <Modal.Header className="modal-head-fg" closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Max & max Numbers
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-rest-fg">
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>min</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="minimal number"
-              value={parseInt(areaValues[0]) < 0 ? "" : parseInt(areaValues[0])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                  if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues(["-1", areaValues[1]]);
-                } else {
-                  setAreaValues([parseInt(event.currentTarget.value).toString(), areaValues[1]]);
-                }
-              }}
-            />
-          </InputGroup>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>max</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="maximal number"
-              value={parseInt(areaValues[1]) < 0 ? "" : parseInt(areaValues[1])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues([areaValues[0], "-1"]);
-                } else {
-                  setAreaValues([areaValues[0], event.currentTarget.value]);
-                }
-              }}
-            />
-          </InputGroup>
-        </Modal.Body>
-        <Modal.Footer className="modal-rest-fg">
-          <Button
-            id="button-fg"
-            onClick={() => {
-              setArea(areaValues);
-              setShowAreaModal(false);
-            }}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
+  const [showNumberAreaModal, setShowNumberAreaModal] = useState(false);
+  const [showColorAreaModal, setShowColorAreaModal] = useState(false);
+  const [showNameAreaModal, setShowNameAreaModal] = useState(false);
+  const [showDirectionAreaModal, setShowDirectionAreaModal] = useState(false);
+
+  const showModal = () => {
+    switch (type) {
+      case ReactionType.NUMBER:
+        setShowNumberAreaModal(true);
+        break;
+      case ReactionType.COLOR:
+        setShowColorAreaModal(true);
+        break;
+      case ReactionType.NAME:
+        setShowNameAreaModal(true);
+        break;
+      case ReactionType.DIRECTION:
+        setShowDirectionAreaModal(true);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <Container style={{ maxWidth: "30rem" }}>
-      <NumberAreaModal />
+      {showNumberAreaModal && (
+        <NumberAreaModal
+          show={showNumberAreaModal}
+          hide={() => setShowNumberAreaModal(false)}
+        />
+      )}
+      {showColorAreaModal && (
+        <ColorAreaModal
+          show={showColorAreaModal}
+          hide={() => setShowColorAreaModal(false)}
+        />
+      )}
+      {showNameAreaModal && (
+        <NameAreaModal
+          show={showNameAreaModal}
+          hide={() => setShowNameAreaModal(false)}
+        />
+      )}
+      {showDirectionAreaModal && (
+        <DirectionAreaModal
+          show={showDirectionAreaModal}
+          hide={() => setShowDirectionAreaModal(false)}
+        />
+      )}
       <Form>
-        <Form.Group controlId="formModus" className="mt-3 ml-3 mr-3">
+        <Form.Group controlId="formType" className="mt-3 ml-3 mr-3">
           <InputGroup>
             <InputGroup.Prepend>
-              <InputGroup.Text>Modus</InputGroup.Text>
+              <InputGroup.Text>Type</InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
               bsPrefix="form-control form-fg"
               as="select"
-              value={mode}
+              value={type}
               onChange={(event: { currentTarget: { value: string } }) =>
-                setMode(parseInt(event.currentTarget.value))
+                setType(parseInt(event.currentTarget.value))
               }
             >
               <option value={0}>Numbers</option>
@@ -126,25 +100,22 @@ const SettingsPage: React.FC = () => {
             <InputGroup.Prepend>
               <InputGroup.Text>Area</InputGroup.Text>
             </InputGroup.Prepend>
-            <Button
-              bsPrefix="form-control form-fg"
-              onClick={() => setShowAreaModal(true)}
-            >
+            <Button bsPrefix="form-control form-fg" onClick={showModal}>
               {area.join(", ")}
             </Button>
           </InputGroup>
         </Form.Group>
-        <Form.Group controlId="formReactionMode" className="mt-3 ml-3 mr-3">
+        <Form.Group controlId="formKind" className="mt-3 ml-3 mr-3">
           <InputGroup>
             <InputGroup.Prepend>
-              <InputGroup.Text>Reaction Mode</InputGroup.Text>
+              <InputGroup.Text>Kind</InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
               bsPrefix="form-control form-fg"
               as="select"
-              value={reaction}
+              value={kind}
               onChange={(event: { currentTarget: { value: string } }) =>
-                setReaction(parseInt(event.currentTarget.value))
+                setKind(parseInt(event.currentTarget.value))
               }
             >
               <option value={0}>on Click</option>
@@ -152,7 +123,7 @@ const SettingsPage: React.FC = () => {
             </Form.Control>
           </InputGroup>
         </Form.Group>
-        {reaction === 1 && (
+        {kind === 1 && (
           <Form.Group controlId="formTime" className="mt-3 ml-3 mr-3">
             <InputGroup>
               <InputGroup.Prepend>
@@ -189,15 +160,20 @@ const SettingsPage: React.FC = () => {
           <Form.Check
             type="checkbox"
             label="Repeat Elements"
+            checked={repeat}
             onChange={(event: { currentTarget: { checked: boolean } }) => {
               setRepeat(event.currentTarget.checked);
             }}
           />
         </Form.Group>
         <Form.Row className="justify-content-center">
-          <Button id="button-fg" type="button" onClick={ () => {
+          <Button
+            id="button-fg"
+            type="submit"
+            onClick={() => {
               history.push("/workout" + history.location.search);
-          }}>
+            }}
+          >
             Submit
           </Button>
         </Form.Row>

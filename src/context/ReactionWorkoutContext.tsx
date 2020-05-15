@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { ReactionType } from '../reaction_type/ReactionTypeEnum';
 
-export enum ReactionWorkoutMode {
-    NUMBER,
-    COLOR,
-    NAME,
-    DIRECTION,
-}
-
-export enum Reaction {
+export enum ReactionKind {
     ON_CLICK,
     TIME,
 }
 
 export const ReactionWorkoutContext = React.createContext({
-  mode: 0,
+  type: 0,
   area: ['0', '2'],
-  reaction: 0,
+  kind: 0,
   time: 0,
   repeat: true,
-  setMode: (mode: number) => {},
+  setType: (type: number) => {},
   setArea: (area: string[]) => {},
-  setReaction: (reaction: number) => {},
+  setKind: (kind: number) => {},
   setTime: (time: number) => {},
   setRepeat: (repeat: boolean) => {}, 
 });
@@ -30,13 +24,13 @@ function getInitialValues(search: string): [number, string[], number, number, bo
   const searchParams = new URLSearchParams(search);
 
   // TODO: verify that only valid numbers are given!!!
-  const mode: number = parseInt(searchParams.get('mode') || '0') || ReactionWorkoutMode.NUMBER;
+  const type: number = parseInt(searchParams.get('type') || '0') || ReactionType.NUMBER;
   const area: string[] = (searchParams.get('area') || "0_2").split('_') || ['0', '2'];
-  const reactionWithTime = (searchParams.get('reaction') || '0').split('_');
-  const reaction: number = parseInt(reactionWithTime[0]) || Reaction.ON_CLICK;
+  const reactionWithTime = (searchParams.get('kind') || '0').split('_');
+  const kind: number = parseInt(reactionWithTime[0]) || ReactionKind.ON_CLICK;
   const time: number = parseInt(reactionWithTime.length>1 ? reactionWithTime[1] : '0') || 0;
   const repeat: boolean = searchParams.get('repeat') === "true" ? true : false;
-  return [mode, area, reaction, time, repeat];
+  return [type, area, kind, time, repeat];
 }
 
 export const ReactionWorkoutContextProvider: React.FC = props => {
@@ -45,34 +39,34 @@ export const ReactionWorkoutContextProvider: React.FC = props => {
 
   const initialValues: [number, string[], number, number, boolean] = (() => getInitialValues(location.search))();
 
-  const [mode, setMode] = useState<number>(initialValues[0]);
+  const [type, setType] = useState<number>(initialValues[0]);
   const [area, setArea] = useState<string[]>(initialValues[1]);
-  const [reaction, setReaction] = useState<number>(initialValues[2]);
+  const [kind, setKind] = useState<number>(initialValues[2]);
   const [time, setTime] = useState<number>(initialValues[3]);
   const [repeat, setRepeat] = useState<boolean>(initialValues[4]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
 
-    searchParams.set('mode', `${mode}`);
+    searchParams.set('type', `${type}`);
     searchParams.set('area', `${area.join('_')}`);
-    searchParams.set('reaction', reaction === 0 ? `${reaction}` : `${reaction}_${time}`);
+    searchParams.set('kind', kind === 0 ? `${kind}` : `${kind}_${time}`);
     searchParams.set('repeat', `${repeat}`);
 
     history.push(`?${searchParams.toString()}`);
-  }, [mode, area, reaction, time, repeat, history, location.search]);
+  }, [type, area, kind, time, repeat, history, location.search]);
 
   return (
     <ReactionWorkoutContext.Provider
       value={{
-        mode: mode,
+        type: type,
         area: area,
-        reaction: reaction,
+        kind: kind,
         time: time,
         repeat: repeat,
-        setMode: setMode,
+        setType: setType,
         setArea: setArea,
-        setReaction: setReaction,
+        setKind: setKind,
         setTime: setTime,
         setRepeat: setRepeat,
       }}
