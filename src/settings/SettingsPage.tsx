@@ -4,9 +4,9 @@ import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 import { useHistory } from "react-router-dom";
 import NumberAreaModal from "../reaction_type/ReactionTypeNumberAreaDisplay";
 import { ReactionType } from "../reaction_type/ReactionTypeEnum";
-import ColorAreaModal from "../reaction_type/ReactionTypeNumberColorDisplay";
-import NameAreaModal from "../reaction_type/ReactionTypeNumberNameDisplay";
-import DirectionAreaModal from "../reaction_type/ReactionTypeNumberDirectionDisplay";
+import ColorAreaModal from "../reaction_type/ReactionTypeColorAreaDisplay";
+import NameAreaModal from "../reaction_type/ReactionTypeNameAreaDisplay";
+import DirectionAreaModal from "../reaction_type/ReactionTypeDirectionAreaDisplay";
 
 const SettingsPage: React.FC = () => {
   const {

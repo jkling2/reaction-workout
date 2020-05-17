@@ -55,7 +55,7 @@ function ReactionWorkoutApp() {
               <WorkoutPage />
             </Route>
             <Route>
-              <Redirect to="/settings" />
+              <Redirect from="/" to="/settings" />
             </Route>
           </Switch>
         </ReactionWorkoutContextProvider>

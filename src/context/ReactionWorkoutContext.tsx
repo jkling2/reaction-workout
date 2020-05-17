@@ -20,27 +20,38 @@ export const ReactionWorkoutContext = React.createContext({
   setRepeat: (repeat: boolean) => {}, 
 });
 
-function getInitialValues(search: string): [number, string[], number, number, boolean] {
+const getTypeOrDefault = (typeToVerify: number) => {
+  return ReactionType[typeToVerify] ? typeToVerify : 0;
+};
+
+const getKindOrDefault = (kindToVerify: number) => {
+  return ReactionKind[kindToVerify] ? kindToVerify : 0;
+};
+
+function getInitialValues(search: string): [number, string[][], number, number, boolean] {
   const searchParams = new URLSearchParams(search);
 
-  // TODO: verify that only valid numbers are given!!!
-  const type: number = parseInt(searchParams.get('type') || '0') || ReactionType.NUMBER;
-  const area: string[] = (searchParams.get('area') || "0_2").split('_') || ['0', '2'];
+  const type: number = getTypeOrDefault(parseInt(searchParams.get('type') || '0')) || ReactionType.NUMBER;
+  const numberArea: string[] = (type === 0 && (searchParams.get('area') || "0_2").split('_')) || ['0', '2'];
+  const colorArea: string[] = (type === 1 && (searchParams.get('area') || "blue_red").split('_')) || ['blue', 'red'];
+  const nameArea: string[] = (type === 2 && (searchParams.get('area') || "left_right").split('_')) || ['left', 'right'];
+  const directionArea: string[] = (type === 3 && (searchParams.get('area') || "🡐_🡒").split('_')) || ['🡐', '🡒'];
   const reactionWithTime = (searchParams.get('kind') || '0').split('_');
-  const kind: number = parseInt(reactionWithTime[0]) || ReactionKind.ON_CLICK;
+  const kind: number = getKindOrDefault(parseInt(reactionWithTime[0])) || ReactionKind.ON_CLICK;
   const time: number = parseInt(reactionWithTime.length>1 ? reactionWithTime[1] : '0') || 0;
   const repeat: boolean = searchParams.get('repeat') === "true" ? true : false;
-  return [type, area, kind, time, repeat];
+  return [type, [numberArea, colorArea, nameArea, directionArea], kind, time, repeat];
 }
 
 export const ReactionWorkoutContextProvider: React.FC = props => {
   const history = useHistory();
   const location = useLocation();
 
-  const initialValues: [number, string[], number, number, boolean] = (() => getInitialValues(location.search))();
+  const initialValues: [number, string[][], number, number, boolean] = (() => getInitialValues(location.search))();
 
   const [type, setType] = useState<number>(initialValues[0]);
-  const [area, setArea] = useState<string[]>(initialValues[1]);
+  const [areas, setAreas] = useState<string[][]>(initialValues[1]);
+  const [area, setArea] = useState<string[]>(areas[type]);
   const [kind, setKind] = useState<number>(initialValues[2]);
   const [time, setTime] = useState<number>(initialValues[3]);
   const [repeat, setRepeat] = useState<boolean>(initialValues[4]);
@@ -48,13 +59,52 @@ export const ReactionWorkoutContextProvider: React.FC = props => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
 
-    searchParams.set('type', `${type}`);
-    searchParams.set('area', `${area.join('_')}`);
-    searchParams.set('kind', kind === 0 ? `${kind}` : `${kind}_${time}`);
+    const currentType = getTypeOrDefault(parseInt(searchParams.get('type') || '0'));
+    const currentArea = searchParams.get('area') || '0_2';
+
+    searchParams.set('type', `${currentType}`);
+    searchParams.set('area', currentArea);
+    searchParams.set('kind', getKindOrDefault(kind) === 0 ? `${getKindOrDefault(kind)}` : `${kind}_${time}`);
     searchParams.set('repeat', `${repeat}`);
 
     history.push(`?${searchParams.toString()}`);
-  }, [type, area, kind, time, repeat, history, location.search]);
+  }, [kind, time, repeat, history, location.search]);
+  
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    
+    const currentType = searchParams.get('type');
+    const currentKind = getKindOrDefault(parseInt(searchParams.get('kind') || '0'));
+    const currentRepeat = searchParams.get('repeat') || "false";
+    
+    if (currentType !== null && areas[getTypeOrDefault(parseInt(currentType))] !== area) {
+      const newAreas = [...areas];
+      newAreas[getTypeOrDefault(parseInt(currentType))] = area;
+      setAreas(newAreas);
+  
+      searchParams.set('type', `${getTypeOrDefault(parseInt(currentType))}`);
+      searchParams.set('area', `${area.join('_')}`);
+      searchParams.set('kind', `${currentKind}`);
+      searchParams.set('repeat', currentRepeat);
+  
+      history.push(`?${searchParams.toString()}`);
+    }
+  }, [area, areas, history, location.search]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const currentKind = getKindOrDefault(parseInt(searchParams.get('kind') || '0'));
+    const currentRepeat = searchParams.get('repeat') || "false";
+
+    searchParams.set('type', `${getTypeOrDefault(type)}`);
+    searchParams.set('area', `${areas[type].join('_')}`);
+    searchParams.set('kind', `${currentKind}`);
+    searchParams.set('repeat', currentRepeat);
+
+    setArea(areas[type]);
+    history.push(`?${searchParams.toString()}`);
+  }, [type, areas, history, location.search]);
 
   return (
     <ReactionWorkoutContext.Provider
