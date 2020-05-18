@@ -19,6 +19,16 @@
     --forest-green-lighter: #98e698;
 }
 
+#select-color{
+    border: thin solid black;
+    width: 3rem; 
+    height: 3rem; 
+}
+#select-color-check{
+    position: relative;
+    left: 2rem;
+}
+
 .bg-fg {
     background: var(--forest-green);
 }
@@ -54,6 +64,7 @@
 
 .form-fg{
     color: var(--forest-green);
+    height: min-content;
 }
 .form-fg:focus{
     color: var(--forest-green);

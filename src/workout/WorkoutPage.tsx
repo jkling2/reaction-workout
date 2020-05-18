@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Container, Button, Modal } from "react-bootstrap";
-import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
+import { ReactionWorkoutContext, ReactionKind } from "../context/ReactionWorkoutContext";
 import { ReactionType } from "../reaction_type/ReactionTypeEnum";
-import ReactionTypeNumberWorkoutDisplay from "../reaction_type/ReactionTypeNumberWorkoutDisplay";
+import TextWorkoutDisplay from "../reaction_type/TextWorkoutDisplay";
+import ColorWorkoutDisplay from "../reaction_type/ColorWorkoutDisplay";
 
 const WorkoutPage: React.FC = () => {
   const { type, area, kind, time, repeat } = useContext(ReactionWorkoutContext);
@@ -15,6 +16,7 @@ const WorkoutPage: React.FC = () => {
   );
   const [done, setDone] = useState<boolean>(false);
   const [areaPool, setAreaPool] = useState<string[]>([]);
+  const defaultBackground:string = "white";
 
   /**
    * Effect to generate new random value or set done
@@ -111,7 +113,10 @@ const WorkoutPage: React.FC = () => {
     <>
       <DoneModal />
       {(type === ReactionType.NUMBER || type === ReactionType.NAME) && (
-        <ReactionTypeNumberWorkoutDisplay randomValue={randomValue} />
+        <TextWorkoutDisplay randomValue={randomValue} />
+      )}
+      {(type === ReactionType.COLOR) && (
+        <ColorWorkoutDisplay randomValue={randomValue} />
       )}
       <Container
         style={{
@@ -119,9 +124,10 @@ const WorkoutPage: React.FC = () => {
           height: (2 * height) / 3,
           display: "flex",
           justifyContent: "center",
+          backgroundColor: type !== ReactionType.COLOR || randomValue === "" ? defaultBackground : randomValue,
         }}
       >
-        {kind === 1 && (
+        {kind === ReactionKind.TIME && (
           <Button
             id="button-fg"
             className="button-big-circle-centered"
@@ -132,7 +138,7 @@ const WorkoutPage: React.FC = () => {
             {runTimeBasedReaction ? "Stop" : "Start"}
           </Button>
         )}
-        {kind === 0 && (
+        {kind === ReactionKind.ON_CLICK && (
           <Button
             id="button-fg"
             className="button-big-circle-centered"

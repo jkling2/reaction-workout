@@ -2,7 +2,7 @@ import React from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Container } from "react-bootstrap";
 
-const ReactionTypeNumberWorkoutDisplay: React.FC<{ randomValue: string }> = (
+const TextWorkoutDisplay: React.FC<{ randomValue: string }> = (
   props
 ) => {
   const { width, height } = useWindowSize();
@@ -24,4 +24,4 @@ const ReactionTypeNumberWorkoutDisplay: React.FC<{ randomValue: string }> = (
   );
 };
 
-export default ReactionTypeNumberWorkoutDisplay;
+export default TextWorkoutDisplay;

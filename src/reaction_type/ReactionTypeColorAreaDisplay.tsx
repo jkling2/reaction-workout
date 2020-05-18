@@ -1,99 +1,93 @@
 import React, { useState, useContext } from "react";
-import { Modal, InputGroup, Form, Button } from "react-bootstrap";
+import { Button, Modal, Row } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 
-const ColorAreaModal: React.FC<{ show: boolean, hide: Function}> = props => {
-    const {
-        area,
-        setArea,
-      } = useContext(ReactionWorkoutContext);
+const ColorAreaModal: React.FC<{ show: boolean; hide: Function }> = (props) => {
+  const { area, setArea } = useContext(ReactionWorkoutContext);
 
-    const [areaValues, setAreaValues] = useState([...area]);
-    const [validRange, setValidRange] = useState(parseInt(areaValues[0]) <= parseInt(areaValues[1]));
+  const colors: string[] = [
+    "red",
+    "blue",
+    "yellow",
+    "green",
+    "orange",
+    "indigo",
+    "purple",
+    "pink",
+    "cyan",
+    "grey",
+    "white",
+    "black",
+  ];
 
-    // TODO: handle letters!; negative values??
+  const colorIdxs: number[][] = [
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [8, 9, 10, 11],
+  ];
+
+  const [selectedColors, setSelectedColors] = useState<boolean[]>(
+    Array(colors.length)
+      .fill(false)
+      .map((v, i) => area.indexOf(colors[i]) >= 0)
+  );
+
+  const setSeledctedColor = (colorIdx: number) => {
+    const newSelectedColors = [...selectedColors];
+    newSelectedColors[colorIdx] = !newSelectedColors[colorIdx];
+    setSelectedColors(newSelectedColors);
+  };
+
+  const ColorPalette: React.FC<{ setSeledctedColor: Function }> = (props) => {
     return (
-      <Modal
-        show={props.show}
-        size="sm"
-        centered
-        onHide={props.hide}
-      >
-        <Modal.Header className="modal-head-fg" closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Min & max Numbers
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-rest-fg">
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>min</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="minimal number"
-              isInvalid={!validRange}
-              value={parseInt(areaValues[0]) < 0 ? "" : parseInt(areaValues[0])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                  if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues(["-1", areaValues[1]]);
-                } else {
-                  setAreaValues([parseInt(event.currentTarget.value).toString(), areaValues[1]]);
-                }
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-            The min-number must be smaller than or equal to the max-number.
-          </Form.Control.Feedback>
-          </InputGroup>
-          <InputGroup className="mt-2">
-            <InputGroup.Prepend>
-              <InputGroup.Text>max</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="maximal number"
-              isInvalid={!validRange}
-              value={parseInt(areaValues[1]) < 0 ? "" : parseInt(areaValues[1])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues([areaValues[0], "-1"]);
-                } else {
-                  setAreaValues([areaValues[0], event.currentTarget.value]);
-                }
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-          </Form.Control.Feedback>
-          </InputGroup>
-        </Modal.Body>
-        <Modal.Footer className="modal-rest-fg">
-          <Button
-            id="button-fg"
-            onClick={() => {
-                if (parseInt(areaValues[0]) > parseInt(areaValues[1])) {
-                    setValidRange(false);
-                } else {
-                    setArea(areaValues);
-                    props.hide();
-                }   
-            }}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <>
+        {colorIdxs.map((colorIdxRow, i) => (
+          <Row className="justify-content-center" key={i}>
+            {colorIdxRow.map((colorIdx) => (
+              <span 
+                key={colorIdx}
+                role="button" 
+                id="select-color"
+                className="mt-2 ml-1 mr-1"
+                style={{ backgroundColor: colors[colorIdx] }}
+                onClick={() => props.setSeledctedColor(colorIdx)}
+              >
+                <input
+                  id="select-color-check"
+                  type="checkbox"
+                  key={colorIdx+"check"}
+                  checked={selectedColors[colorIdx]}
+                  readOnly
+                />
+              </span>
+            ))}
+          </Row>
+        ))}
+      </>
     );
   };
 
-  export default ColorAreaModal;
+  return (
+    <Modal show={props.show} size="sm" centered onHide={props.hide}>
+      <Modal.Header className="modal-head-fg" closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">Colors</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="modal-rest-fg">
+        <ColorPalette setSeledctedColor={setSeledctedColor} />
+      </Modal.Body>
+      <Modal.Footer className="modal-rest-fg">
+        <Button
+          id="button-fg"
+          onClick={() => {
+            setArea(colors.filter((v, i) => selectedColors[i]));
+            props.hide();
+          }}
+        >
+          Save
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export default ColorAreaModal;
