@@ -1,99 +1,108 @@
 import React, { useState, useContext } from "react";
-import { Modal, InputGroup, Form, Button } from "react-bootstrap";
+import { Modal, Button, Row } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 
-const DirectionAreaModal: React.FC<{ show: boolean, hide: Function}> = props => {
-    const {
-        area,
-        setArea,
-      } = useContext(ReactionWorkoutContext);
+export const directions: string[] = [
+  "🡔🡔",
+  "",
+  "🡑🡑",
+  "",
+  "🡕🡕",
+  "",
+  "🡔",
+  "🡑",
+  "🡕",
+  "",
+  "🡐🡐",
+  "🡐",
+  "",
+  "🡒",
+  "🡒🡒",
+  "",
+  "🡗",
+  "🡓",
+  "🡖",
+  "",
+  "🡗🡗",
+  "",
+  "🡓🡓",
+  "",
+  "🡖🡖",
+];
 
-    const [areaValues, setAreaValues] = useState([...area]);
-    const [validRange, setValidRange] = useState(parseInt(areaValues[0]) <= parseInt(areaValues[1]));
+export const directionIdxs: number[][] = [
+  [0, 1, 2, 3, 4],
+  [5, 6, 7, 8, 9],
+  [10, 11, 12, 13, 14],
+  [15, 16, 17, 18, 19],
+  [20, 21, 22, 23, 24],
+];
 
-    // TODO: handle letters!; negative values??
+const DirectionAreaModal: React.FC<{ show: boolean; hide: Function }> = (
+  props
+) => {
+  const { area, setArea } = useContext(ReactionWorkoutContext);
+  const [selectedDirections, setSelectedDirections] = useState<boolean[]>(
+    Array(directions.length)
+      .fill(false)
+      .map((v, i) => area.indexOf(directions[i]) >= 0)
+  );
+
+  const setSelectedDirection = (directionIdx: number) => {
+    const newSelectedDirection = [...selectedDirections];
+    newSelectedDirection[directionIdx] = !newSelectedDirection[directionIdx];
+    setSelectedDirections(newSelectedDirection);
+  };
+
+  const DirectionPalette: React.FC<{ setSelectedDirection: Function }> = (
+    props
+  ) => {
     return (
-      <Modal
-        show={props.show}
-        size="sm"
-        centered
-        onHide={props.hide}
-      >
-        <Modal.Header className="modal-head-fg" closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Min & max Numbers
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-rest-fg">
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>min</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="minimal number"
-              isInvalid={!validRange}
-              value={parseInt(areaValues[0]) < 0 ? "" : parseInt(areaValues[0])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                  if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues(["-1", areaValues[1]]);
-                } else {
-                  setAreaValues([parseInt(event.currentTarget.value).toString(), areaValues[1]]);
+      <>
+        {directionIdxs.map((directionIdxRow, i) => (
+          <Row className="justify-content-center" key={i}>
+            {directionIdxRow.map((directionIdx) => (
+              <span
+                key={directionIdx}
+                role="button"
+                id={
+                  selectedDirections[directionIdx]
+                    ? "span-direction-selected"
+                    : "span-direction"
                 }
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-            The min-number must be smaller than or equal to the max-number.
-          </Form.Control.Feedback>
-          </InputGroup>
-          <InputGroup className="mt-2">
-            <InputGroup.Prepend>
-              <InputGroup.Text>max</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              bsPrefix="form-control form-fg-dark"
-              type="text"
-              pattern="[0-9]*"
-              placeholder="maximal number"
-              isInvalid={!validRange}
-              value={parseInt(areaValues[1]) < 0 ? "" : parseInt(areaValues[1])}
-              onChange={(event: { currentTarget: { value: string } }) => {
-                if (
-                  isNaN(parseInt(event.currentTarget.value)) ||
-                  event.currentTarget.value.length === 0
-                ) {
-                  setAreaValues([areaValues[0], "-1"]);
-                } else {
-                  setAreaValues([areaValues[0], event.currentTarget.value]);
-                }
-              }}
-            />
-            <Form.Control.Feedback type="invalid">
-          </Form.Control.Feedback>
-          </InputGroup>
-        </Modal.Body>
-        <Modal.Footer className="modal-rest-fg">
-          <Button
-            id="button-fg"
-            onClick={() => {
-                if (parseInt(areaValues[0]) > parseInt(areaValues[1])) {
-                    setValidRange(false);
-                } else {
-                    setArea(areaValues);
-                    props.hide();
-                }   
-            }}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                className="span-direction"
+                onClick={() => setSelectedDirection(directionIdx)}
+              >
+                {directions[directionIdx]}
+              </span>
+            ))}
+          </Row>
+        ))}
+      </>
     );
   };
 
-  export default DirectionAreaModal;
+  return (
+    <Modal show={props.show} size="sm" centered onHide={props.hide}>
+      <Modal.Header className="modal-head-fg" closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">Directions</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="modal-rest-fg">
+        <DirectionPalette setSelectedDirection={setSelectedDirection} />
+      </Modal.Body>
+      <Modal.Footer className="modal-rest-fg">
+        <Button
+          id="button-fg"
+          onClick={() => {
+            setArea(directions.filter((v, i) => selectedDirections[i]));
+            props.hide();
+          }}
+        >
+          Save
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export default DirectionAreaModal;

@@ -101,7 +101,7 @@ const SettingsPage: React.FC = () => {
               <InputGroup.Text>Area</InputGroup.Text>
             </InputGroup.Prepend>
             <Button bsPrefix="form-control form-fg" onClick={showModal}>
-              {area.join(", ")}
+              {area.length === 0 ? "click to select" : area.join(", ")}
             </Button>
           </InputGroup>
         </Form.Group>

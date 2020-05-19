@@ -5,6 +5,7 @@ import { ReactionWorkoutContext, ReactionKind } from "../context/ReactionWorkout
 import { ReactionType } from "../reaction_type/ReactionTypeEnum";
 import TextWorkoutDisplay from "../reaction_type/TextWorkoutDisplay";
 import ColorWorkoutDisplay from "../reaction_type/ColorWorkoutDisplay";
+import DirectionWorkoutDisplay from "../reaction_type/DirectionWorkoutDisplay";
 
 const WorkoutPage: React.FC = () => {
   const { type, area, kind, time, repeat } = useContext(ReactionWorkoutContext);
@@ -121,7 +122,7 @@ const WorkoutPage: React.FC = () => {
       <Container
         style={{
           width: width,
-          height: (2 * height) / 3,
+          height: height / 2 - 56,
           display: "flex",
           justifyContent: "center",
           backgroundColor: type !== ReactionType.COLOR || randomValue === "" ? defaultBackground : randomValue,

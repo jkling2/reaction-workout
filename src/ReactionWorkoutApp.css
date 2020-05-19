@@ -34,8 +34,6 @@
 }
 
 .button-big-circle-centered{
-    position: relative;
-    top: 5rem;
     width: 70px; 
     height: 70px; 
     padding: 10px 16px; 
@@ -58,6 +56,28 @@
 #button-fg:focus {
     box-shadow: none;
 }
+
+#span-direction{
+    color: grey;
+    font-size: 1.2rem;
+}
+#span-direction-selected{
+    color:var(--forest-green);
+    font-size: 1.5rem;
+}
+.span-direction:hover{
+    opacity: 0.8;
+}
+.span-direction{
+    background-color: transparent;
+    border-color: transparent;
+    width: 3rem; 
+    height: 3rem; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-secondary:hover:enabled{
     opacity: 0.8;
 }

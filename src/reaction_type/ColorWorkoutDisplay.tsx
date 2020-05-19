@@ -11,7 +11,7 @@ const ColorWorkoutDisplay: React.FC<{ randomValue: string }> = (
     <Container
       style={{
         width: width,
-        height: height / 3,
+        height: height / 2,
         display: "flex",
         justifyContent: "center",
         backgroundColor: props.randomValue,
