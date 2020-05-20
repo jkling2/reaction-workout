@@ -1,26 +1,54 @@
 import React from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Container } from "react-bootstrap";
+import ReactionButton, { ReactionButtonProps } from "./ReactionButton";
 
-const TextWorkoutDisplay: React.FC<{ randomValue: string }> = (
-  props
-) => {
+interface TextWorkoutDisplayProps {
+  randomValue: string;
+  reactionButtonProps: ReactionButtonProps;
+}
+
+const TextWorkoutDisplay: React.FC<TextWorkoutDisplayProps> = (props) => {
+  const {
+    randomValue,
+    reactionButtonProps,
+  } = props;
+  const {
+    runTimeBasedReaction,
+    setRunTimeBasedReaction,
+    setNeedNewRandomValue,
+  } = reactionButtonProps;
   const { width, height } = useWindowSize();
 
   return (
-    <Container
-      style={{
-        width: width,
-        height: height / 2,
-        display: "flex",
-        justifyContent: "center",
-        fontSize: "5rem",
-      }}
-    >
-      <div style={{ position: "relative", top: "30%" }}>
-        {props.randomValue}
-      </div>
-    </Container>
+    <>
+      <Container
+        style={{
+          width: width,
+          height: height / 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "5rem",
+        }}
+      >
+        {randomValue}
+      </Container>
+      <Container
+        style={{
+          width: width,
+          height: height / 2 - 56,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <ReactionButton
+          runTimeBasedReaction={runTimeBasedReaction}
+          setRunTimeBasedReaction={setRunTimeBasedReaction}
+          setNeedNewRandomValue={setNeedNewRandomValue}
+        />
+      </Container>
+    </>
   );
 };
 

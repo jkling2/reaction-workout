@@ -70,7 +70,7 @@ const DirectionAreaModal: React.FC<{ show: boolean; hide: Function }> = (
                     ? "span-direction-selected"
                     : "span-direction"
                 }
-                className="span-direction"
+                className="span-direction span-direction-arrow span-direction-hover"
                 onClick={() => setSelectedDirection(directionIdx)}
               >
                 {directions[directionIdx]}

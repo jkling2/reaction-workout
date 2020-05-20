@@ -65,17 +65,23 @@
     color:var(--forest-green);
     font-size: 1.5rem;
 }
-.span-direction:hover{
+.span-direction-hover:hover{
     opacity: 0.8;
 }
 .span-direction{
     background-color: transparent;
     border-color: transparent;
-    width: 3rem; 
-    height: 3rem; 
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 70px; 
+}
+
+.span-direction-arrow{
+    width: 3rem; 
+}
+.span-direction-button{
+    width: 70px; 
 }
 
 .btn-secondary:hover:enabled{
@@ -113,4 +119,20 @@
     color: var(--forest-green);
     background-color: var(--forest-green-lighter);
     border: none
+}
+
+@keyframes blink {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.blink-direction {
+    animation: blink 1s linear infinite;
 }

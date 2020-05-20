@@ -11,7 +11,6 @@ const NumberAreaModal: React.FC<{ show: boolean, hide: Function}> = props => {
     const [areaValues, setAreaValues] = useState([...area]);
     const [validRange, setValidRange] = useState(parseInt(areaValues[0]) <= parseInt(areaValues[1]));
 
-    // TODO: handle letters!; negative values??
     return (
       <Modal
         show={props.show}

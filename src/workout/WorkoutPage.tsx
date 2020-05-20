@@ -1,15 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import useWindowSize from "react-use/lib/useWindowSize";
-import { Container, Button, Modal } from "react-bootstrap";
-import { ReactionWorkoutContext, ReactionKind } from "../context/ReactionWorkoutContext";
+import { Modal } from "react-bootstrap";
+import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 import { ReactionType } from "../reaction_type/ReactionTypeEnum";
 import TextWorkoutDisplay from "../reaction_type/TextWorkoutDisplay";
 import ColorWorkoutDisplay from "../reaction_type/ColorWorkoutDisplay";
 import DirectionWorkoutDisplay from "../reaction_type/DirectionWorkoutDisplay";
 
 const WorkoutPage: React.FC = () => {
-  const { type, area, kind, time, repeat } = useContext(ReactionWorkoutContext);
-  const { width, height } = useWindowSize();
+  const { type, area, time, repeat } = useContext(ReactionWorkoutContext);
   const [randomValue, setRandomValue] = useState<string>("");
   const [needNewRandomValue, setNeedNewRandomValue] = useState<boolean>(false);
   const [runTimeBasedReaction, setRunTimeBasedReaction] = useState<boolean>(
@@ -17,7 +15,9 @@ const WorkoutPage: React.FC = () => {
   );
   const [done, setDone] = useState<boolean>(false);
   const [areaPool, setAreaPool] = useState<string[]>([]);
-  const defaultBackground:string = "white";
+  const defaultBackground: string = "white";
+  const [timer, setTimer] = useState(setTimeout(() => {}, 0));
+  const [startTimer, setStartTimer] = useState<boolean>(false);
 
   /**
    * Effect to generate new random value or set done
@@ -41,14 +41,26 @@ const WorkoutPage: React.FC = () => {
     }
   }, [needNewRandomValue, areaPool]);
 
+  useEffect(() => {
+    if (randomValue === "") {
+      setStartTimer(false);
+    } else {
+      setStartTimer(true);
+    }
+  }, [randomValue]);
+
   /**
    * Effect to start sleep for given amount of time
    */
   useEffect(() => {
-    if (randomValue !== "" && runTimeBasedReaction) {
-      setTimeout(() => setNeedNewRandomValue(true), time * 1000);
+    if (startTimer && runTimeBasedReaction) {
+      setTimer(
+        setTimeout(() => {
+          setNeedNewRandomValue(true);
+        }, time * 1000)
+      );
     }
-  }, [randomValue, time, runTimeBasedReaction]);
+  }, [startTimer, time, runTimeBasedReaction]);
 
   /**
    * Effect to start random value generation for time based reaction
@@ -58,6 +70,16 @@ const WorkoutPage: React.FC = () => {
       setNeedNewRandomValue(true);
     }
   }, [runTimeBasedReaction]);
+
+  /**
+   * Effect to clear timer
+   */
+  useEffect(() => {
+    if (!runTimeBasedReaction) {
+      clearTimeout(timer);
+      setStartTimer(false);
+    }
+  }, [runTimeBasedReaction, timer]);
 
   /**
    * Effect to clear random value when done and initialize area pool when done changes to false
@@ -114,41 +136,37 @@ const WorkoutPage: React.FC = () => {
     <>
       <DoneModal />
       {(type === ReactionType.NUMBER || type === ReactionType.NAME) && (
-        <TextWorkoutDisplay randomValue={randomValue} />
+        <TextWorkoutDisplay
+          randomValue={randomValue}
+          reactionButtonProps={{
+            runTimeBasedReaction,
+            setRunTimeBasedReaction,
+            setNeedNewRandomValue,
+          }}
+        />
       )}
-      {(type === ReactionType.COLOR) && (
-        <ColorWorkoutDisplay randomValue={randomValue} />
+      {type === ReactionType.COLOR && (
+        <ColorWorkoutDisplay
+          randomValue={randomValue}
+          defaultBackground={defaultBackground}
+          reactionButtonProps={{
+            runTimeBasedReaction,
+            setRunTimeBasedReaction,
+            setNeedNewRandomValue,
+          }}
+        />
       )}
-      <Container
-        style={{
-          width: width,
-          height: height / 2 - 56,
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: type !== ReactionType.COLOR || randomValue === "" ? defaultBackground : randomValue,
-        }}
-      >
-        {kind === ReactionKind.TIME && (
-          <Button
-            id="button-fg"
-            className="button-big-circle-centered"
-            onClick={() => {
-              setRunTimeBasedReaction(!runTimeBasedReaction);
-            }}
-          >
-            {runTimeBasedReaction ? "Stop" : "Start"}
-          </Button>
-        )}
-        {kind === ReactionKind.ON_CLICK && (
-          <Button
-            id="button-fg"
-            className="button-big-circle-centered"
-            onClick={() => setNeedNewRandomValue(true)}
-          >
-            click
-          </Button>
-        )}
-      </Container>
+      {type === ReactionType.DIRECTION && (
+        <DirectionWorkoutDisplay
+          areaPool={areaPool}
+          randomValue={randomValue}
+          reactionButtonProps={{
+            runTimeBasedReaction,
+            setRunTimeBasedReaction,
+            setNeedNewRandomValue,
+          }}
+        />
+      )}
     </>
   );
 };

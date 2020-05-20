@@ -18,10 +18,7 @@ const NameAreaModal: React.FC<{ show: boolean, hide: Function}> = props => {
     }
 
     const deleteAreaValuesAtIndex = (idx: number) => {
-      console.log(idx);
-      console.log(areaValues);
       const newAreaValues = [...areaValues].filter((v, i) => i !== idx);
-      console.log(newAreaValues);
       setAreaValues(newAreaValues);
     }
 
