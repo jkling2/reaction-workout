@@ -41,7 +41,7 @@ const DirectionWorkoutDisplay: React.FC<DirectionWorkoutDisplayProps> = (
       style={{
         width: width,
         maxWidth: "30rem",
-        height: height,
+        height: height - 56,
       }}
     >
       {directionIdxs.map((directionIdxRow, i) => (

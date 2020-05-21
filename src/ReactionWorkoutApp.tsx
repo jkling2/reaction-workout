@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import logo from "./img/favicon.svg";
+import logo from "./img/white-arrow.png";
 import "./ReactionWorkoutApp.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import SettingsPage from "./settings/SettingsPage";
