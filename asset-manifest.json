@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/reaction-workout/static/css/main.c818fd79.chunk.css",
+    "main.js": "/reaction-workout/static/js/main.502f2150.chunk.js",
+    "main.js.map": "/reaction-workout/static/js/main.502f2150.chunk.js.map",
+    "runtime-main.js": "/reaction-workout/static/js/runtime-main.d5e6d84a.js",
+    "runtime-main.js.map": "/reaction-workout/static/js/runtime-main.d5e6d84a.js.map",
+    "static/css/2.af3c1da9.chunk.css": "/reaction-workout/static/css/2.af3c1da9.chunk.css",
+    "static/js/2.7bc07add.chunk.js": "/reaction-workout/static/js/2.7bc07add.chunk.js",
+    "static/js/2.7bc07add.chunk.js.map": "/reaction-workout/static/js/2.7bc07add.chunk.js.map",
+    "index.html": "/reaction-workout/index.html",
+    "precache-manifest.63d873271e6413cf76922ef2b3e2c64b.js": "/reaction-workout/precache-manifest.63d873271e6413cf76922ef2b3e2c64b.js",
+    "service-worker.js": "/reaction-workout/service-worker.js",
+    "static/css/2.af3c1da9.chunk.css.map": "/reaction-workout/static/css/2.af3c1da9.chunk.css.map",
+    "static/css/main.c818fd79.chunk.css.map": "/reaction-workout/static/css/main.c818fd79.chunk.css.map",
+    "static/js/2.7bc07add.chunk.js.LICENSE.txt": "/reaction-workout/static/js/2.7bc07add.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d5e6d84a.js",
+    "static/css/2.af3c1da9.chunk.css",
+    "static/js/2.7bc07add.chunk.js",
+    "static/css/main.c818fd79.chunk.css",
+    "static/js/main.502f2150.chunk.js"
+  ]
+}
