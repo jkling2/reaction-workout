@@ -81,7 +81,9 @@
     width: 3rem; 
 }
 .span-direction-button{
-    width: 70px; 
+    width: 70px;
+    position:relative; 
+    z-index: 1;
 }
 
 .btn-secondary:hover:enabled{

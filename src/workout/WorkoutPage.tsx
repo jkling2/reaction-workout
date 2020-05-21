@@ -158,7 +158,6 @@ const WorkoutPage: React.FC = () => {
       )}
       {type === ReactionType.DIRECTION && (
         <DirectionWorkoutDisplay
-          areaPool={areaPool}
           randomValue={randomValue}
           reactionButtonProps={{
             runTimeBasedReaction,
