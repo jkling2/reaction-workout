@@ -3,9 +3,9 @@
 Want to improve your reaction skills? Try this random value generator for numbers, colors, names and directions.
 
 <p align="center">
-    <img src="demo/reaction-number-demo.PNG" alt="Screencast" width="300"/>
-    <img src="demo/reaction-directions-setting-demo.PNG" alt="Screencast" width="300"/>
-    <img src="demo/reaction-directions-demo.PNG" alt="Screencast" width="300"/>
+    <img src="demo/reaction-number-demo.PNG" alt="Screencast" width="250"/>
+    <img src="demo/reaction-directions-setting-demo.PNG" alt="Screencast" width="250"/>
+    <img src="demo/reaction-directions-demo.PNG" alt="Screencast" width="250"/>
 </p> 
 
 ## Implementation and Run Details
