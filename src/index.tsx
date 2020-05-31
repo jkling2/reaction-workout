@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactionWorkoutApp from './ReactionWorkoutApp';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import "typeface-roboto";
+import "./index.css";
 
 const mount = document.getElementById('root');
 

@@ -1,3 +1,5 @@
+html { font-family: 'Roboto', sans-serif; }
+
 @keyframes react {
 	0% {
         transform: rotateZ(0);
@@ -135,7 +137,7 @@
 
 .form-fg{
     color: var(--forest-green);
-    height: min-content;
+    height: initial;
 }
 .form-fg:focus{
     color: var(--forest-green);

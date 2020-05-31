@@ -12,7 +12,7 @@ function ReactionWorkoutApp() {
   return (
     <>
       <header>
-        <Navbar bg="fg" variant="dark">
+        <Navbar bg="fg" variant="dark" expand="sm">
           <Navbar.Brand href="#home">
             <img
               alt=""
@@ -23,12 +23,14 @@ function ReactionWorkoutApp() {
             />
             &nbsp;&nbsp;ReactionWorkout
           </Navbar.Brand>
+          <Navbar.Toggle/>
+  <Navbar.Collapse className="justify-content-end">
           <Nav>
             <Nav.Item>
               <LinkContainer
                 activeClassName="active"
                 exact={true}
-                to="/settings"
+                to="/reaction-workout/settings"
               >
                 <Nav.Link>{"Settings"}</Nav.Link>
               </LinkContainer>
@@ -37,25 +39,26 @@ function ReactionWorkoutApp() {
               <LinkContainer
                 activeClassName="active"
                 exact={true}
-                to="/workout"
+                to="/reaction-workout/workout"
               >
                 <Nav.Link>{"Workout"}</Nav.Link>
               </LinkContainer>
             </Nav.Item>
           </Nav>
+          </Navbar.Collapse>
         </Navbar>
       </header>
       <main>
         <ReactionWorkoutContextProvider>
           <Switch>
-            <Route path="/settings" exact={true}>
+            <Route path="/reaction-workout/settings" exact={true}>
               <SettingsPage />
             </Route>
-            <Route path="/workout" exact={true}>
+            <Route path="/reaction-workout/workout" exact={true}>
               <WorkoutPage />
             </Route>
             <Route>
-              <Redirect from="/" to="/settings" />
+              <Redirect from="/" to="/reaction-workout/settings" />
             </Route>
           </Switch>
         </ReactionWorkoutContextProvider>

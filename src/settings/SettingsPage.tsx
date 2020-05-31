@@ -169,9 +169,9 @@ const SettingsPage: React.FC = () => {
         <Form.Row className="justify-content-center">
           <Button
             id="button-fg"
-            type="submit"
+            type="button"
             onClick={() => {
-              history.push("/workout" + history.location.search);
+              history.push("/reaction-workout/workout" + history.location.search);
             }}
           >
             Submit
