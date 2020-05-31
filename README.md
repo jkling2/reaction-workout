@@ -2,17 +2,11 @@
 
 Want to improve your reaction skills? Try this random value generator for numbers, colors, names and directions.
 
- <div class="row">
-  <div class="column">
-    <img src="demo/reaction-number-demo.PNG" alt="Screencast"/>
-  </div>
-  <div class="column">
-    <img src="demo/reaction-directions-setting-demo.PNG" alt="Screencast"/>
-  </div>
-  <div class="column">
-    <img src="demo/reaction-directions-demo.PNG" alt="Screencast"/>
-  </div>
-</div> 
+<p align="center">
+    <img src="demo/reaction-number-demo.PNG" alt="Screencast" width="300"/>
+    <img src="demo/reaction-directions-setting-demo.PNG" alt="Screencast" width="300"/>
+    <img src="demo/reaction-directions-demo.PNG" alt="Screencast" width="300"/>
+</p> 
 
 ## Implementation and Run Details
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
