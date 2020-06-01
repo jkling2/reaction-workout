@@ -12,7 +12,7 @@ function ReactionWorkoutApp() {
   return (
     <>
       <header>
-        <Navbar bg="fg" variant="dark" expand="sm">
+        <Navbar bg="fg" variant="dark" expand="sm" collapseOnSelect>
           <Navbar.Brand href="#home">
             <img
               alt=""
@@ -23,42 +23,42 @@ function ReactionWorkoutApp() {
             />
             &nbsp;&nbsp;ReactionWorkout
           </Navbar.Brand>
-          <Navbar.Toggle/>
-  <Navbar.Collapse className="justify-content-end">
-          <Nav>
-            <Nav.Item>
-              <LinkContainer
-                activeClassName="active"
-                exact={true}
-                to="/reaction-workout/settings"
-              >
-                <Nav.Link>{"Settings"}</Nav.Link>
-              </LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-              <LinkContainer
-                activeClassName="active"
-                exact={true}
-                to="/reaction-workout/workout"
-              >
-                <Nav.Link>{"Workout"}</Nav.Link>
-              </LinkContainer>
-            </Nav.Item>
-          </Nav>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Nav>
+              <Nav.Item>
+                <LinkContainer
+                  activeClassName="active"
+                  exact={true}
+                  to="/settings"
+                >
+                  <Nav.Link>{"Settings"}</Nav.Link>
+                </LinkContainer>
+              </Nav.Item>
+              <Nav.Item>
+                <LinkContainer
+                  activeClassName="active"
+                  exact={true}
+                  to="/workout"
+                >
+                  <Nav.Link>{"Workout"}</Nav.Link>
+                </LinkContainer>
+              </Nav.Item>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
       </header>
       <main>
         <ReactionWorkoutContextProvider>
           <Switch>
-            <Route path="/reaction-workout/settings" exact={true}>
+            <Route path="/settings" exact={true}>
               <SettingsPage />
             </Route>
-            <Route path="/reaction-workout/workout" exact={true}>
+            <Route path="/workout" exact={true}>
               <WorkoutPage />
             </Route>
             <Route>
-              <Redirect from="/" to="/reaction-workout/settings" />
+              <Redirect from="/" to="/settings" />
             </Route>
           </Switch>
         </ReactionWorkoutContextProvider>

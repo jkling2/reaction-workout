@@ -11,7 +11,7 @@ const mount = document.getElementById('root');
 
 const app = (
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ReactionWorkoutApp />
     </BrowserRouter>
   </React.StrictMode>

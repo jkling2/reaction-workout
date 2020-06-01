@@ -171,7 +171,7 @@ const SettingsPage: React.FC = () => {
             id="button-fg"
             type="button"
             onClick={() => {
-              history.push("/reaction-workout/workout" + history.location.search);
+              history.push("/workout" + history.location.search);
             }}
           >
             Submit
