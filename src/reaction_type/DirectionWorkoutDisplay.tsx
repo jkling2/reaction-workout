@@ -10,13 +10,14 @@ import {
 
 interface DirectionWorkoutDisplayProps {
   randomValue: string;
+  areaPool: string[];
   reactionButtonProps: ReactionButtonProps;
 }
 
 const DirectionWorkoutDisplay: React.FC<DirectionWorkoutDisplayProps> = (
   props
 ) => {
-  const { randomValue, reactionButtonProps } = props;
+  const { randomValue, areaPool, reactionButtonProps } = props;
   const {
     runTimeBasedReaction,
     setRunTimeBasedReaction,
@@ -50,9 +51,10 @@ const DirectionWorkoutDisplay: React.FC<DirectionWorkoutDisplayProps> = (
             <span
               key={directionIdx}
               id={
-                area.indexOf(directions[directionIdx]) >= 0
-                  ? "span-direction-selected"
-                  : "span-direction"
+                (areaPool.indexOf(directions[directionIdx]) >= 0) || (area.indexOf(directions[directionIdx]) >= 0 && blink(directionIdx))
+                ? "span-direction-selected"
+                :"span-direction"
+                
               }
               className={
                 directionIdx === 12

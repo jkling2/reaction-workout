@@ -43,7 +43,7 @@ function getInitialValues(
   const nameArea: string[] = (type === 2 &&
     (searchParams.get("area") || "left_right").split("_")) || ["left", "right"];
   const directionArea: string[] = (type === 3 &&
-    (searchParams.get("area") || "🡐_🡒").split("_")) || ["🡐", "🡒"];
+    (searchParams.get("area") || "⭠_⭢").split("_")) || ["⭠", "⭢"];
   const reactionWithTime = (searchParams.get("kind") || "0").split("_");
   const kind: number =
     getKindOrDefault(parseInt(reactionWithTime[0])) || ReactionKind.ON_CLICK;
