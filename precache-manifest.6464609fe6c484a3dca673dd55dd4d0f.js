@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "02de386dc18103f687dbcf6cea47d393",
+    "revision": "361e6b4560533384388442aed3619028",
     "url": "/reaction-workout/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reaction-workout/static/css/2.be3be5c7.chunk.css"
   },
   {
-    "revision": "ed5a5279e00617b705a2",
+    "revision": "23a32d7fe4733d690fa4",
     "url": "/reaction-workout/static/css/main.a218d89b.chunk.css"
   },
   {
@@ -20,12 +20,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reaction-workout/static/js/2.835cce61.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ed5a5279e00617b705a2",
-    "url": "/reaction-workout/static/js/main.2d4eb55d.chunk.js"
+    "revision": "23a32d7fe4733d690fa4",
+    "url": "/reaction-workout/static/js/main.e4522028.chunk.js"
   },
   {
     "revision": "ccf560ccd49c4124364b",
     "url": "/reaction-workout/static/js/runtime-main.d5e6d84a.js"
+  },
+  {
+    "revision": "28a6ec53eb68fe8d3da899594537268c",
+    "url": "/reaction-workout/static/media/logo.28a6ec53.svg"
   },
   {
     "revision": "5cb7edfceb233100075dc9a1e12e8da3",
