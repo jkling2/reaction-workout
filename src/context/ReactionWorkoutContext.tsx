@@ -12,12 +12,12 @@ export const ReactionWorkoutContext = React.createContext({
   area: ["0", "2"],
   kind: 0,
   time: 0,
-  repeat: true,
+  repeat: 0,
   setType: (type: number) => {},
   setArea: (area: string[]) => {},
   setKind: (kind: number) => {},
   setTime: (time: number) => {},
-  setRepeat: (repeat: boolean) => {},
+  setRepeat: (repeat: number) => {},
 });
 
 const getTypeOrDefault = (typeToVerify: number) => {
@@ -30,7 +30,7 @@ const getKindOrDefault = (kindToVerify: number) => {
 
 function getInitialValues(
   search: string
-): [number, string[][], number, number, boolean] {
+): [number, string[][], number, number, number] {
   const searchParams = new URLSearchParams(search);
 
   const type: number =
@@ -49,7 +49,7 @@ function getInitialValues(
     getKindOrDefault(parseInt(reactionWithTime[0])) || ReactionKind.ON_CLICK;
   const time: number =
     parseInt(reactionWithTime.length > 1 ? reactionWithTime[1] : "0") || 0;
-  const repeat: boolean = searchParams.get("repeat") === "true" ? true : false;
+  const repeat: number = parseInt(searchParams.get("repeat") || "0");
   return [
     type,
     [numberArea, colorArea, nameArea, directionArea],
@@ -63,7 +63,7 @@ export const ReactionWorkoutContextProvider: React.FC = (props) => {
   const history = useHistory();
   const location = useLocation();
 
-  const initialValues: [number, string[][], number, number, boolean] = (() =>
+  const initialValues: [number, string[][], number, number, number] = (() =>
     getInitialValues(location.search))();
 
   const [type, setType] = useState<number>(initialValues[0]);
@@ -71,7 +71,7 @@ export const ReactionWorkoutContextProvider: React.FC = (props) => {
   const [area, setArea] = useState<string[]>(areas[type]);
   const [kind, setKind] = useState<number>(initialValues[2]);
   const [time, setTime] = useState<number>(initialValues[3]);
-  const [repeat, setRepeat] = useState<boolean>(initialValues[4]);
+  const [repeat, setRepeat] = useState<number>(initialValues[4]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);

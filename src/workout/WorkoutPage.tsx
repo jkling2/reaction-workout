@@ -8,11 +8,11 @@ import DirectionWorkoutDisplay from "../reaction_type/DirectionWorkoutDisplay";
 
 const WorkoutPage: React.FC = () => {
   const { type, area, time, repeat } = useContext(ReactionWorkoutContext);
+  const [randomValueIdx, setRandomValueIdx] = useState<number>(-1);
   const [randomValue, setRandomValue] = useState<string>("");
   const [needNewRandomValue, setNeedNewRandomValue] = useState<boolean>(false);
-  const [runTimeBasedReaction, setRunTimeBasedReaction] = useState<boolean>(
-    false
-  );
+  const [poolUpdated, setPoolUpdated] = useState<boolean>(true);
+  const [runTimeBasedReaction, setRunTimeBasedReaction] = useState<boolean>(false);
   const [done, setDone] = useState<boolean>(false);
   const [areaPool, setAreaPool] = useState<string[]>([]);
   const defaultBackground: string = "white";
@@ -23,14 +23,20 @@ const WorkoutPage: React.FC = () => {
    * Effect to generate new random value or set done
    */
   useEffect(() => {
+    const unsetRV = () => {
+      setRandomValueIdx(-1);
+      setRandomValue("");
+    };
     if (needNewRandomValue && areaPool.length > 0) {
       setNeedNewRandomValue(false);
-      Promise.resolve(setRandomValue("")).then(() =>
+      Promise.resolve(unsetRV()).then(() =>
         setTimeout(
-          () =>
-            setRandomValue(
-              areaPool[Math.floor(Math.random() * areaPool.length)]
-            ),
+          () => {
+            const rvIdx = Math.floor(Math.random() * areaPool.length);
+            setRandomValueIdx(rvIdx);
+            setRandomValue(areaPool[rvIdx]);
+            setPoolUpdated(false);
+        },
           200
         )
       );
@@ -42,12 +48,12 @@ const WorkoutPage: React.FC = () => {
   }, [needNewRandomValue, areaPool]);
 
   useEffect(() => {
-    if (randomValue === "") {
+    if (randomValueIdx === -1) {
       setStartTimer(false);
     } else {
       setStartTimer(true);
     }
-  }, [randomValue]);
+  }, [randomValueIdx]);
 
   /**
    * Effect to start sleep for given amount of time
@@ -95,25 +101,36 @@ const WorkoutPage: React.FC = () => {
             .fill(0)
             .map((v, i) => `${i + min}`);
         default:
-          return [...area];
+          let localAreaPool = [...area];
+          for (let index = 1; index < repeat; index++) {
+            localAreaPool = localAreaPool.concat([...area]);
+          }
+          return localAreaPool;
       }
     };
     if (done) {
-      setRandomValue("");
+      setRandomValueIdx(-1);
     } else {
       setAreaPool(initializeAreaPool());
     }
-  }, [done, type, area]);
+  }, [done, type, area, repeat]);
 
   /**
    * Effect to update valid values when they are not allowed to be repeated
    */
   useEffect(() => {
-    if (!repeat && areaPool.indexOf(randomValue) >= 0) {
-      const modAreaPool = areaPool.filter((v, i) => v !== randomValue);
-      setAreaPool(modAreaPool);
+    if (repeat !== 0 && !poolUpdated && randomValueIdx >= 0) {
+      Promise.resolve(setPoolUpdated(true)).then(() =>
+        setTimeout(
+          () => {
+            const modAreaPool = areaPool.filter((v, i) => i !== randomValueIdx);
+            setAreaPool(modAreaPool);
+        },
+          200
+        )
+      );
     }
-  }, [randomValue, areaPool, repeat]);
+  }, [randomValueIdx, areaPool, repeat, poolUpdated]);
 
   const DoneModal: React.FC = () => {
     return (

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Container, InputGroup, Form, Button } from "react-bootstrap";
+import { Container, InputGroup, Form, Button, Row, Col } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 import { useHistory } from "react-router-dom";
 import NumberAreaModal from "../reaction_type/ReactionTypeNumberAreaDisplay";
@@ -152,20 +152,41 @@ const SettingsPage: React.FC = () => {
             </InputGroup>
           </Form.Group>
         )}
-        <Form.Group
-          controlId="formRepeatElement"
-          className="mt-3 ml-3 mr-3"
-          defaultChecked={repeat}
-        >
-          <Form.Check
-            type="checkbox"
-            label="Repeat Elements"
-            checked={repeat}
-            onChange={(event: { currentTarget: { checked: boolean } }) => {
-              setRepeat(event.currentTarget.checked);
+        {type === 0 && (
+          <Form.Group
+            controlId="formRepeatElement"
+            className="mt-3 ml-3 mr-3"
+            defaultChecked={repeat === 0}
+          > 
+            <Form.Check
+              type="checkbox"
+              label="Repeat Elements"
+              checked={repeat === 0}
+              onChange={(event: { currentTarget: { checked: boolean } }) => {
+                setRepeat(event.currentTarget.checked ? 0 : 1);
+              }}
+            />
+          </Form.Group>
+        )}
+        {type !== 0 && (
+          <Form.Group
+            as={Row}
+            controlId="formRepeatElement"
+            className="mt-3 ml-3 mr-3"
+          >
+            <Form.Label>Repeat Elements</Form.Label>
+            <Col sm="3" xs="4">
+            <Form.Control
+            bsPrefix="form-control form-fg-dark"
+            type="number" min="0" max="10" value={repeat === 0 ? "" : repeat}
+            onChange={(event: { currentTarget: { value: string } }) => {
+              setRepeat(parseInt(event.currentTarget.value));
             }}
-          />
-        </Form.Group>
+            />
+            </Col>
+            <Form.Label column>{repeat === 0 ? "infinitely" : repeat === 1 ? "time" : "times"}</Form.Label>
+          </Form.Group>
+        )}
         <Form.Row className="justify-content-center">
           <Button
             id="button-fg"
