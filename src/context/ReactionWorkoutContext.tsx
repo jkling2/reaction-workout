@@ -95,7 +95,6 @@ export const ReactionWorkoutContextProvider: React.FC = (props) => {
     );
     searchParams.set("repeat", `${repeat}`);
 
-    console.log(history.location);
     history.push(`?${searchParams.toString()}`);
   }, [type, area, areas, kind, time, repeat, history, location.search]);
 

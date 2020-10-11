@@ -1,18 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactionWorkoutApp from './ReactionWorkoutApp';
-import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ReactionWorkoutApp from "./ReactionWorkoutApp";
+import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from "react-router-dom";
 import "typeface-roboto";
 import "./index.css";
+import { ReactionWorkoutContextProvider } from "./context/ReactionWorkoutContext";
 
-const mount = document.getElementById('root');
+const mount = document.getElementById("root");
 
 const app = (
   <React.StrictMode>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <ReactionWorkoutApp />
+      <ReactionWorkoutContextProvider>
+        <ReactionWorkoutApp />
+      </ReactionWorkoutContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

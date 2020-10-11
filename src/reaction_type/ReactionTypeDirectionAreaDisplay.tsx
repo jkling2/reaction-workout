@@ -49,9 +49,11 @@ const DirectionAreaModal: React.FC<{ show: boolean; hide: Function }> = (
   );
 
   const setSelectedDirection = (directionIdx: number) => {
-    const newSelectedDirection = [...selectedDirections];
-    newSelectedDirection[directionIdx] = !newSelectedDirection[directionIdx];
-    setSelectedDirections(newSelectedDirection);
+    if (directions[directionIdx] !== "") {
+      const newSelectedDirection = [...selectedDirections];
+      newSelectedDirection[directionIdx] = !newSelectedDirection[directionIdx];
+      setSelectedDirections(newSelectedDirection);
+    }
   };
 
   const DirectionPalette: React.FC<{ setSelectedDirection: Function }> = (
@@ -64,7 +66,7 @@ const DirectionAreaModal: React.FC<{ show: boolean; hide: Function }> = (
             {directionIdxRow.map((directionIdx) => (
               <span
                 key={directionIdx}
-                role="button"
+                role={directions[directionIdx] !== "" ? "button" : "text"}
                 id={
                   selectedDirections[directionIdx]
                     ? "span-direction-selected"

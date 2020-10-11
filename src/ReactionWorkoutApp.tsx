@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "./logo.svg";
@@ -6,9 +6,13 @@ import "./ReactionWorkoutApp.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import SettingsPage from "./settings/SettingsPage";
 import WorkoutPage from "./workout/WorkoutPage";
-import { ReactionWorkoutContextProvider } from "./context/ReactionWorkoutContext";
+import {
+  ReactionKind,
+  ReactionWorkoutContext,
+} from "./context/ReactionWorkoutContext";
 
 function ReactionWorkoutApp() {
+  const { kind, time } = useContext(ReactionWorkoutContext);
   return (
     <>
       <header>
@@ -41,7 +45,11 @@ function ReactionWorkoutApp() {
                   exact={true}
                   to="/workout"
                 >
-                  <Nav.Link>{"Workout"}</Nav.Link>
+                  {kind === ReactionKind.TIME && time === 0 ? (
+                    <Nav.Link disabled>{"Workout"}</Nav.Link>
+                  ) : (
+                    <Nav.Link>{"Workout"}</Nav.Link>
+                  )}
                 </LinkContainer>
               </Nav.Item>
             </Nav>
@@ -49,19 +57,17 @@ function ReactionWorkoutApp() {
         </Navbar>
       </header>
       <main>
-        <ReactionWorkoutContextProvider>
-          <Switch>
-            <Route path="/settings" exact={true}>
-              <SettingsPage />
-            </Route>
-            <Route path="/workout" exact={true}>
-              <WorkoutPage />
-            </Route>
-            <Route>
-              <Redirect from="/" to="/settings" />
-            </Route>
-          </Switch>
-        </ReactionWorkoutContextProvider>
+        <Switch>
+          <Route path="/settings" exact={true}>
+            <SettingsPage />
+          </Route>
+          <Route path="/workout" exact={true}>
+            <WorkoutPage />
+          </Route>
+          <Route>
+            <Redirect from="/" to="/settings" />
+          </Route>
+        </Switch>
       </main>
     </>
   );

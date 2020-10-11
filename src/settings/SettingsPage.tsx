@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Container, InputGroup, Form, Button, Row, Col } from "react-bootstrap";
-import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
+import { Container, InputGroup, Form, Button, Row } from "react-bootstrap";
+import {
+  ReactionKind,
+  ReactionWorkoutContext,
+} from "../context/ReactionWorkoutContext";
 import { useHistory } from "react-router-dom";
 import NumberAreaModal from "../reaction_type/ReactionTypeNumberAreaDisplay";
 import { ReactionType } from "../reaction_type/ReactionTypeEnum";
@@ -22,6 +25,8 @@ const SettingsPage: React.FC = () => {
   } = useContext(ReactionWorkoutContext);
 
   const history = useHistory();
+
+  const [validate, setValidate] = useState(false);
 
   const [showNumberAreaModal, setShowNumberAreaModal] = useState(false);
   const [showColorAreaModal, setShowColorAreaModal] = useState(false);
@@ -123,7 +128,7 @@ const SettingsPage: React.FC = () => {
             </Form.Control>
           </InputGroup>
         </Form.Group>
-        {kind === 1 && (
+        {kind === ReactionKind.TIME && (
           <Form.Group controlId="formTime" className="mt-3 ml-3 mr-3">
             <InputGroup>
               <InputGroup.Prepend>
@@ -135,6 +140,7 @@ const SettingsPage: React.FC = () => {
                 pattern="[0-9]*"
                 placeholder="change after sec"
                 value={time <= 0 ? "" : time}
+                isInvalid={validate && time <= 0}
                 onChange={(event: { currentTarget: { value: string } }) => {
                   if (
                     isNaN(parseInt(event.currentTarget.value)) ||
@@ -146,18 +152,21 @@ const SettingsPage: React.FC = () => {
                   }
                 }}
               />
+              <Form.Control.Feedback type="invalid" tooltip>
+                The time must be greater than <b>0</b> sec.
+              </Form.Control.Feedback>
               <InputGroup.Append>
                 <InputGroup.Text>sec</InputGroup.Text>
               </InputGroup.Append>
             </InputGroup>
           </Form.Group>
         )}
-        {type === 0 && (
+        {type === ReactionType.NUMBER && (
           <Form.Group
             controlId="formRepeatElement"
-            className="mt-3 ml-3 mr-3"
+            className="mt-4 ml-3 mr-3 mb-4"
             defaultChecked={repeat === 0}
-          > 
+          >
             <Form.Check
               type="checkbox"
               label="Repeat Elements"
@@ -168,23 +177,27 @@ const SettingsPage: React.FC = () => {
             />
           </Form.Group>
         )}
-        {type !== 0 && (
+        {type !== ReactionType.NUMBER && (
           <Form.Group
             as={Row}
             controlId="formRepeatElement"
-            className="mt-3 ml-3 mr-3"
+            className="ml-3 mr-3"
           >
-            <Form.Label>Repeat Elements</Form.Label>
-            <Col sm="3" xs="4">
+            <Form.Label className="mt-2">Repeat</Form.Label>
             <Form.Control
-            bsPrefix="form-control form-fg-dark"
-            type="number" min="0" max="10" value={repeat === 0 ? "" : repeat}
-            onChange={(event: { currentTarget: { value: string } }) => {
-              setRepeat(parseInt(event.currentTarget.value));
-            }}
+              className="ml-1 mr-1"
+              bsPrefix="form-fg-width form-control form-fg-dark"
+              type="number"
+              min="0"
+              max="10"
+              value={repeat === 0 ? "" : repeat}
+              onChange={(event: { currentTarget: { value: string } }) => {
+                setRepeat(parseInt(event.currentTarget.value));
+              }}
             />
-            </Col>
-            <Form.Label column>{repeat === 0 ? "infinitely" : repeat === 1 ? "time" : "times"}</Form.Label>
+            <Form.Label className="mt-2">
+              {repeat === 0 ? "infinitely" : repeat === 1 ? "time" : "times"}
+            </Form.Label>
           </Form.Group>
         )}
         <Form.Row className="justify-content-center">
@@ -192,7 +205,11 @@ const SettingsPage: React.FC = () => {
             id="button-fg"
             type="button"
             onClick={() => {
-              history.push("/workout" + history.location.search);
+              if (kind === 0 || time > 0) {
+                history.push("/workout" + history.location.search);
+              } else {
+                setValidate(true);
+              }
             }}
           >
             Submit

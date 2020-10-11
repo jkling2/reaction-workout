@@ -12,33 +12,32 @@ const WorkoutPage: React.FC = () => {
   const [randomValue, setRandomValue] = useState<string>("");
   const [needNewRandomValue, setNeedNewRandomValue] = useState<boolean>(false);
   const [poolUpdated, setPoolUpdated] = useState<boolean>(true);
-  const [runTimeBasedReaction, setRunTimeBasedReaction] = useState<boolean>(false);
+  const [runTimeBasedReaction, setRunTimeBasedReaction] = useState<boolean>(
+    false
+  );
   const [done, setDone] = useState<boolean>(false);
   const [areaPool, setAreaPool] = useState<string[]>([]);
   const defaultBackground: string = "white";
   const [timer, setTimer] = useState(setTimeout(() => {}, 0));
   const [startTimer, setStartTimer] = useState<boolean>(false);
+  const unsetRV = () => {
+    setRandomValueIdx(-1);
+    setRandomValue("");
+  };
 
   /**
    * Effect to generate new random value or set done
    */
   useEffect(() => {
-    const unsetRV = () => {
-      setRandomValueIdx(-1);
-      setRandomValue("");
-    };
     if (needNewRandomValue && areaPool.length > 0) {
       setNeedNewRandomValue(false);
       Promise.resolve(unsetRV()).then(() =>
-        setTimeout(
-          () => {
-            const rvIdx = Math.floor(Math.random() * areaPool.length);
-            setRandomValueIdx(rvIdx);
-            setRandomValue(areaPool[rvIdx]);
-            setPoolUpdated(false);
-        },
-          200
-        )
+        setTimeout(() => {
+          const rvIdx = Math.floor(Math.random() * areaPool.length);
+          setRandomValueIdx(rvIdx);
+          setRandomValue(areaPool[rvIdx]);
+          setPoolUpdated(false);
+        }, 200)
       );
     } else if (needNewRandomValue && areaPool.length === 0) {
       setNeedNewRandomValue(false);
@@ -109,7 +108,7 @@ const WorkoutPage: React.FC = () => {
       }
     };
     if (done) {
-      setRandomValueIdx(-1);
+      unsetRV();
     } else {
       setAreaPool(initializeAreaPool());
     }
@@ -121,13 +120,10 @@ const WorkoutPage: React.FC = () => {
   useEffect(() => {
     if (repeat !== 0 && !poolUpdated && randomValueIdx >= 0) {
       Promise.resolve(setPoolUpdated(true)).then(() =>
-        setTimeout(
-          () => {
-            const modAreaPool = areaPool.filter((v, i) => i !== randomValueIdx);
-            setAreaPool(modAreaPool);
-        },
-          200
-        )
+        setTimeout(() => {
+          const modAreaPool = areaPool.filter((v, i) => i !== randomValueIdx);
+          setAreaPool(modAreaPool);
+        }, 200)
       );
     }
   }, [randomValueIdx, areaPool, repeat, poolUpdated]);

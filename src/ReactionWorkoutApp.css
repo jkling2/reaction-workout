@@ -135,6 +135,10 @@ html { font-family: 'Roboto', sans-serif; }
     opacity: 0.8;
 }
 
+.form-fg-width{
+    width: 75px;
+}
+
 .form-fg{
     color: var(--forest-green);
     height: initial;
