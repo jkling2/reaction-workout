@@ -188,6 +188,7 @@ const SettingsPage: React.FC = () => {
               className="ml-1 mr-1"
               bsPrefix="form-fg-width form-control form-fg-dark"
               type="number"
+              pattern="[0-9]*"
               min="0"
               max="10"
               value={repeat === 0 ? "" : repeat}
