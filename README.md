@@ -1,4 +1,5 @@
 # Reaction Workout Application using React and Typescript
+![CI Status](https://github.com/jkling2/reaction-workout/actions/workflows/node.js.yml/badge.svg)
 
 Want to improve your reaction skills? Try this random value generator for numbers, colors, names and directions.
 
