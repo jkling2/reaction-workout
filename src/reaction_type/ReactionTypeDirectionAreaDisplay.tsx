@@ -38,7 +38,7 @@ export const directionIdxs: number[][] = [
   [20, 21, 22, 23, 24],
 ];
 
-const DirectionAreaModal: React.FC<{ show: boolean; hide: Function }> = (
+const DirectionAreaModal: React.FC<{ show: boolean; hide: () => void }> = (
   props
 ) => {
   const { area, setArea } = useContext(ReactionWorkoutContext);

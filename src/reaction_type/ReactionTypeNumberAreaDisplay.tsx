@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Modal, InputGroup, Form, Button } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 
-const NumberAreaModal: React.FC<{ show: boolean; hide: Function }> = (
+const NumberAreaModal: React.FC<{ show: boolean; hide: () => void }> = (
   props
 ) => {
   const { area, setArea } = useContext(ReactionWorkoutContext);

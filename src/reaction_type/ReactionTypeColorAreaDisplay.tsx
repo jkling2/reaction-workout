@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Button, Modal, Row } from "react-bootstrap";
 import { ReactionWorkoutContext } from "../context/ReactionWorkoutContext";
 
-const ColorAreaModal: React.FC<{ show: boolean; hide: Function }> = (props) => {
+const ColorAreaModal: React.FC<{ show: boolean; hide: () => void }> = (props) => {
   const { area, setArea } = useContext(ReactionWorkoutContext);
 
   const colors: string[] = [
