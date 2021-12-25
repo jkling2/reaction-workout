@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/reaction-workout/static/css/main.99854f7d.chunk.css",
+    "main.css": "/reaction-workout/static/css/main.49228624.chunk.css",
     "main.js": "/reaction-workout/static/js/main.2e0d13a5.chunk.js",
     "main.js.map": "/reaction-workout/static/js/main.2e0d13a5.chunk.js.map",
     "runtime-main.js": "/reaction-workout/static/js/runtime-main.bb329723.js",
     "runtime-main.js.map": "/reaction-workout/static/js/runtime-main.bb329723.js.map",
-    "static/css/2.134bc64c.chunk.css": "/reaction-workout/static/css/2.134bc64c.chunk.css",
-    "static/js/2.c0ff965b.chunk.js": "/reaction-workout/static/js/2.c0ff965b.chunk.js",
-    "static/js/2.c0ff965b.chunk.js.map": "/reaction-workout/static/js/2.c0ff965b.chunk.js.map",
+    "static/css/2.dd4d0864.chunk.css": "/reaction-workout/static/css/2.dd4d0864.chunk.css",
+    "static/js/2.ee21c63d.chunk.js": "/reaction-workout/static/js/2.ee21c63d.chunk.js",
+    "static/js/2.ee21c63d.chunk.js.map": "/reaction-workout/static/js/2.ee21c63d.chunk.js.map",
     "index.html": "/reaction-workout/index.html",
-    "precache-manifest.6db039e53d7c38e3c959fae331f0d690.js": "/reaction-workout/precache-manifest.6db039e53d7c38e3c959fae331f0d690.js",
+    "precache-manifest.670194f90b250843dedea2009e066809.js": "/reaction-workout/precache-manifest.670194f90b250843dedea2009e066809.js",
     "service-worker.js": "/reaction-workout/service-worker.js",
-    "static/css/2.134bc64c.chunk.css.map": "/reaction-workout/static/css/2.134bc64c.chunk.css.map",
-    "static/css/main.99854f7d.chunk.css.map": "/reaction-workout/static/css/main.99854f7d.chunk.css.map",
-    "static/js/2.c0ff965b.chunk.js.LICENSE.txt": "/reaction-workout/static/js/2.c0ff965b.chunk.js.LICENSE.txt",
+    "static/css/2.dd4d0864.chunk.css.map": "/reaction-workout/static/css/2.dd4d0864.chunk.css.map",
+    "static/css/main.49228624.chunk.css.map": "/reaction-workout/static/css/main.49228624.chunk.css.map",
+    "static/js/2.ee21c63d.chunk.js.LICENSE.txt": "/reaction-workout/static/js/2.ee21c63d.chunk.js.LICENSE.txt",
     "static/media/logo.svg": "/reaction-workout/static/media/logo.28a6ec53.svg",
     "static/media/index.css": "/reaction-workout/static/media/roboto-latin-900italic.ebf6d164.woff2"
   },
   "entrypoints": [
     "static/js/runtime-main.bb329723.js",
-    "static/css/2.134bc64c.chunk.css",
-    "static/js/2.c0ff965b.chunk.js",
-    "static/css/main.99854f7d.chunk.css",
+    "static/css/2.dd4d0864.chunk.css",
+    "static/js/2.ee21c63d.chunk.js",
+    "static/css/main.49228624.chunk.css",
     "static/js/main.2e0d13a5.chunk.js"
   ]
 }
